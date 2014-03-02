@@ -1,0 +1,42 @@
+a=5;
+Alenafun fun [b,c]
+	d = 3.5;
+	rez = d*15.0;
+	c = [int]c;
+	d = [int]c^5-2;
+	if [d != 0]
+		rez  = [a+[int]b]/[c-2];
+		return rez;
+	else
+		if [d != 0]
+			rez  = [a+[int]b]/[c-2];
+			return rez;
+		else
+			return 0.0;
+
+
+Alenafun fun1 [b,c]
+	d = 0;
+	rez = 0;
+	d = c-2;
+
+
+Alenamain
+	a = 0;
+	b = 0;
+	c = 0;
+	result=0;
+	Alout["Введите a"];
+	Alin[a];
+	Alout["Введите b"];
+	Alin[b];
+	Alout["Введите c"];
+	Alin[c];
+	result = fun [b,c];
+	if [result != 0]
+		Alout["(a+b)/(c-2)="];
+		Alout [result];
+	else
+		Alout["На ноль делить нельзя!"];
+
+
