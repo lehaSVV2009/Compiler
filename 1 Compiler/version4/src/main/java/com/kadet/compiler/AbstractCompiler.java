@@ -1,5 +1,6 @@
 package com.kadet.compiler;
 
+import com.kadet.compiler.evaluators.ProgramEvaluator;
 import org.antlr.runtime.tree.CommonTree;
 
 /**
@@ -10,7 +11,11 @@ import org.antlr.runtime.tree.CommonTree;
  */
 public abstract class AbstractCompiler {
 
-    public abstract CommonTree compile (String expression);
+    public abstract ProgramEvaluator compile (String expression);
+
+    public void compileCode (String code) {
+
+    }
 
     protected void printTree (CommonTree ast) {
         print(ast, 0);

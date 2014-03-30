@@ -1,0 +1,6 @@
+TODO:
+1) check errors on add variable
+2) check errors on add constants
+3) check errors on not direct constant assignment
+4) check errors on use not assignment value
+
