@@ -6,22 +6,9 @@ package com.kadet.compiler;
  *
  * @author Кадет
  */
-public class Constant {
-
-    private String name;
-    private Type type;
+public class Constant extends Variable{
 
     public Constant (String name) {
-        this.name = name;
-    }
-
-    public void setType (Type type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString () {
-        return "Name: " + name +
-                "\nType: " + type.toString();
+        super(name);
     }
 }

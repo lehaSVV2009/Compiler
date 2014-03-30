@@ -13,11 +13,15 @@ options {
 @lexer::header {
     package com.kadet.compiler;
     import com.kadet.compiler.evaluators.*;
+    import com.kadet.compiler.expressions.*;
+    import com.kadet.compiler.entities.*;
 }
 
 @parser::header {
     package com.kadet.compiler;
     import com.kadet.compiler.evaluators.*;
+    import com.kadet.compiler.expressions.*;
+    import com.kadet.compiler.entities.*;
 }
 
 @members
@@ -204,12 +208,21 @@ add
     :   multiple ( ('plus' | 'minus') multiple)*
     ;
 
-relation
+relation returns [Expression expression]
     :   add ( ('equal' | 'not equal' | 'lessOrEqual' | 'less' | 'greater' | 'greaterOrEqual') add)*
+         {
+            $expression
+                    = new ValueExpression(
+                                new Element(123));
+         }
     ;
 
-expression
-    :   relation ( ('and' | 'or') relation)*
+expression returns [Expression expression]
+    :   expression1 = relation               { $expression = expression1.expression; }
+        (
+        'and' expression2 = relation         { $expression = new AndExpression($expression, $expression2.expression); }
+        | 'or' expression2 = relation        { $expression = new OrExpression($expression, $expression2.expression); }
+        )*
     ;
 
 procedure

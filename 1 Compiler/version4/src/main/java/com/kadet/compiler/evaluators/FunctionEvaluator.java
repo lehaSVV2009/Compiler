@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class FunctionEvaluator extends ProcedureEvaluator{
 
-    private Type returnType = Type.VOID;
+    private Type returnType;
 
     public FunctionEvaluator (String name, List<Variable> parameters, Type type) {
         super(name, parameters);
