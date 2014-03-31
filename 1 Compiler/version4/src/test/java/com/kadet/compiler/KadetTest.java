@@ -21,7 +21,7 @@ public class KadetTest {
 
 
 
-
+/*
     @Test
 	public void constant () {
         KadetCompiler compiler = new KadetCompiler();
@@ -84,7 +84,7 @@ public class KadetTest {
                                  "\n" +
                                  "end Test1.");
     }
-
+*/
 
     @Test
     public void ifTest () {
@@ -95,7 +95,7 @@ public class KadetTest {
                                  "var element1, element2 : Element := 1;\n" +
                                  "var element3 : Element;\n" +
                                  "var list : List;\n" +
-                                 "var list2 : List := [ 123, 'A', element1 ];\n" +
+                                 "var list2 : List := < 123, element1 >;\n" +
                                  "\n" +
                                  "begin\n" +
                                  "\n" +
@@ -119,12 +119,12 @@ public class KadetTest {
                 "var element1, element2 : Element := 1;\n" +
                 "var element3 : Element;\n" +
                 "var list : List;\n" +
-                "var list2 : List := [ 123, 'A', element1 ];\n" +
+                "var list2 : List := < 123, element1 >;\n" +
                 "var i : Element;\n" +
                 "\n" +
                 "begin\n" +
                 "\n" +
-                "list := [ 10, 12 ];\n" +
+                "list := [ 10, 12 >;\n" +
                 "\n" +
                 "if element1 less 32 then\n" +
                 "    element3 := element1 plus 1;\n" +
@@ -171,7 +171,7 @@ public class KadetTest {
         KadetCompiler compiler = new KadetCompiler();
         compiler.compile("program Test2 = \n" +
                                  "\n" +
-                                 "  var list : List := [ 1, 2, 3, 5 ];\n" +
+                                 "  var list : List := < 1, 2, 3, 5 >;\n" +
                                  "\n" +
                                  "  var result : List;\n" +
                                  "\n" +
@@ -181,13 +181,13 @@ public class KadetTest {
                                  "\n" +
                                  "begin\n" +
                                  "\n" +
-                                 "  result := list + 1 + 'A' - element;\n" +
+                                 "  result := list + 1 - element;\n" +
                                  "  \n" +
-                                 "  list2 := [ [ 1, 2, 3, 5] ];\n" +
+                                 "  list2 := < < 1, 2, 3, 5> >;\n" +
                                  "\n" +
                                  "  result := result * list2;\n" +
                                  "\n" +
-                                 "  result := result / [ [1, 2, 3, 5] ];\n" +
+                                 "  result := result / < <1, 2, 3, 5> >;\n" +
                                  "\n" +
                                  "end Test2.");
     }
@@ -199,7 +199,7 @@ public class KadetTest {
                                  "\n" +
                                  "  var variable : Element := 123;\n" +
                                  "\n" +
-                                 "  var list : List := [ 1, 2, 4 ];\n" +
+                                 "  var list : List := < 1, 2, 4 >;\n" +
                                  "\n" +
                                  "  procedure foo (x : Element) =\n" +
                                  "    constant y : Element := 12;\n" +
@@ -214,7 +214,7 @@ public class KadetTest {
                                  "  function defaultList () : List = \n" +
                                  "  begin\n" +
                                  "    variable := 12;\n" +
-                                 "    return ([ 1, 2, 4 ]);\n" +
+                                 "    return (< 1, 2, 4 >);\n" +
                                  "  end defaultList.\n" +
                                  " \n" +
                                  "begin\n" +
@@ -431,21 +431,9 @@ public class KadetTest {
     }
 
 
-    @Test
-    public void specificTypes () {
-        KadetCompiler compiler = new KadetCompiler();
-        Evaluator evaluator = compiler.compile("program XLSample = " +
-                                 "" +
-                                 "constant one: Element := 1;" +
-                                 "constant two: Element := 2;" +
-                                 "var x,   y , z : Element := 42;" +
-                                 "begin " +
-                                 "x:=42 + 6 * 7 + 10;" +
-                                 "y := 10 ;" +
-                                 "end XLSample.");
-        evaluator.evaluate();
-    }
-
+//
+// Worked:
+//
 
     @Test
     public void simpleEvaluator () {
@@ -457,6 +445,115 @@ public class KadetTest {
         );
         evaluator.evaluate();
     }
+
+
+
+    @Test
+    public void specificTypes () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                 "" +
+                                 "constant one: Integer := 1;" +
+                                 "constant two: Integer := 2;" +
+                                 "var x,   y , z : Integer := 42;" +
+                                 "var t : Boolean := @true;" +
+                                 "begin " +
+                                 "x:= 42 plus 6 multiply 7 plus 10 divide 2;" +
+                                 "y := 10 ;" +
+                                 "end XLSample.");
+        evaluator.evaluate();
+    }
+
+    @Test
+    public void listEvaluation () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                 "\nconstant one: Integer := 1;" +
+                                 "\nvar list : List;" +
+                                 "\nvar t : Boolean := @true;" +
+                                 "\nbegin " +
+                                 "\nlist := <1, 2, 3, 4 plus 5>;" +
+                                 "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void listPlusOperation () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                 "\nconstant one: Integer := 1;" +
+                                 "\nvar list1 : List;" +
+                                 "\nvar list2 : List;" +
+                                 "\nvar x : Boolean := @true;" +
+                                 "\nvar y : Integer := 12;" +
+                                 "\nbegin " +
+                                 "\nlist1 := <1, 2, 3, 4 plus 5>;" +
+                                 "\nlist2 := <5, 6, 7, 9 minus 4>;" +
+                                 "\nlist1 := 2 + 1;" +
+                                 "\nlist1 := <1, 2> + 1;" +
+                                 "\nlist1 := 2 + <1, 2>;" +
+                                 "\nlist1 := <1, 2> + <1, 2, 4>;" +
+                                 "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+    @Test
+    public void removeElementFromListOperation () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                 "\nconstant one: Integer := 1;" +
+                                 "\nvar list1 : List;" +
+                                 "\nvar list2 : List;" +
+                                 "\nvar x : Boolean := @true;" +
+                                 "\nvar y : Integer := 12;" +
+                                 "\nbegin " +
+                                 "\nlist1 := <1, 2, 3, 4 plus 5>;" +
+                                 "\nlist2 := <5, 6, 7, 9 minus 4>;" +
+                                 "\nlist1 := <1, 1, 1, 2> - 1;" +
+                                 "\nlist1 := <1, <1, 2>> - <1, 2>;" +
+                                 "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void overListOperation () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                       "\nconstant one: Integer := 1;" +
+                                                       "\nvar list1 : List;" +
+                                                       "\nvar list2 : List;" +
+                                                       "\nvar x : Boolean := @true;" +
+                                                       "\nvar y : Integer := 12;" +
+                                                       "\nbegin " +
+                                                       "\nlist1 := <1, 2, 3, 4 plus 5>;" +
+                                                       "\nlist2 := <5, 6, 7, 9 minus 4>;" +
+                                                       "\nlist1 := 2 * 1;" +
+                                                       "\nlist1 := <1, 2> * 1;" +
+                                                       "\nlist1 := 2 * <1, 2>;" +
+                                                       "\nlist1 := <1, 2> * <1, 2, 4> - <1, 2>;" +
+                                                       "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void removeAllElementEntriesFromListOperation () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                       "\nconstant one: Integer := 1;" +
+                                                       "\nvar list1 : List;" +
+                                                       "\nvar list2 : List;" +
+                                                       "\nvar x : Boolean := @true;" +
+                                                       "\nvar y : Integer := 12;" +
+                                                       "\nbegin " +
+                                                       "\nlist1 := <1, 2, 3, 4 plus 5, 1, 1> / 1;" +
+                                                       "\nlist2 := <5, 6, 7, 9, <1, 2>, <1, 2>, @true> / <1, 2>;" +
+                                                       "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
 
 
 

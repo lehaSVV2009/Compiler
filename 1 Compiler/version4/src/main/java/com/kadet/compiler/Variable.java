@@ -1,5 +1,7 @@
 package com.kadet.compiler;
 
+import com.kadet.compiler.entities.Value;
+
 /**
  * Date: 30.03.14
  * Time: 12:38
@@ -9,19 +11,21 @@ package com.kadet.compiler;
 public class Variable {
 
     private String name;
-    private Type type;
+    private Value value;
 
     public Variable (String name) {
         this.name = name;
     }
 
-    public void setType (Type type) {
-        this.type = type;
+    public void setValue (Value value) {
+        this.value = value;
     }
 
     @Override
     public String toString () {
-        return "Name: " + name +
-                "\nType: " + type.toString();
+        return "Variable{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
     }
 }

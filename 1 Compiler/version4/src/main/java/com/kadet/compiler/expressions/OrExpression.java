@@ -1,6 +1,7 @@
 package com.kadet.compiler.expressions;
 
 import com.kadet.compiler.entities.Value;
+import com.kadet.compiler.util.KadetException;
 
 /**
  * Date: 30.03.14
@@ -10,12 +11,12 @@ import com.kadet.compiler.entities.Value;
  */
 public class OrExpression extends BinaryExpression {
 
-    public OrExpression (Expression evaluator1, Expression evaluator2) {
-        super(evaluator1, evaluator2);
+    public OrExpression (Expression expression1, Expression expression2) {
+        super(expression1, expression2);
     }
 
     @Override
-    public Value calculate () {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Value calculate () throws KadetException {
+        return expression1.calculate();
     }
 }

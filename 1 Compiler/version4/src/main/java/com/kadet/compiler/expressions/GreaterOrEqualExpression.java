@@ -5,20 +5,18 @@ import com.kadet.compiler.util.KadetException;
 
 /**
  * Date: 30.03.14
- * Time: 18:01
+ * Time: 18:39
  *
  * @author Кадет
  */
-public class ValueExpression implements Expression {
+public class GreaterOrEqualExpression extends BinaryExpression {
 
-    private Value value;
-
-    public ValueExpression (Value value) {
-        this.value = value;
+    public GreaterOrEqualExpression (Expression expression1, Expression expression2) {
+        super(expression1, expression2);
     }
 
     @Override
     public Value calculate () throws KadetException {
-        return value;
+        return expression1.calculate();
     }
 }

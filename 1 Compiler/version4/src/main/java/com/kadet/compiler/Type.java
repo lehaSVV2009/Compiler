@@ -8,8 +8,11 @@ package com.kadet.compiler;
  */
 public enum Type {
 
+
+    VALUE,
     ELEMENT,
     LIST,
-    VALUE
+    INTEGER,
+    BOOLEAN
 
 }

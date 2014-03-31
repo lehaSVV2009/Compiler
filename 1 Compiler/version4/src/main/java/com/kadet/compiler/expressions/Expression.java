@@ -1,6 +1,7 @@
 package com.kadet.compiler.expressions;
 
 import com.kadet.compiler.entities.Value;
+import com.kadet.compiler.util.KadetException;
 
 /**
  * Date: 30.03.14
@@ -10,6 +11,6 @@ import com.kadet.compiler.entities.Value;
  */
 public interface Expression {
 
-    Value calculate ();
+    Value calculate () throws KadetException;
 
 }

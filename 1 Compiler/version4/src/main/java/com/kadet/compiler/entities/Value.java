@@ -16,4 +16,7 @@ public class Value {
         return type;
     }
 
+    public Value copy () {
+        return new Value();
+    }
 }

@@ -8,11 +8,11 @@ package com.kadet.compiler.expressions;
  */
 public abstract class BinaryExpression implements Expression {
 
-    protected Expression evaluator1;
-    protected Expression evaluator2;
+    protected Expression expression1;
+    protected Expression expression2;
 
-    public BinaryExpression (Expression evaluator1, Expression evaluator2) {
-        this.evaluator1 = evaluator1;
-        this.evaluator2 = evaluator2;
+    public BinaryExpression (Expression expression1, Expression expression2) {
+        this.expression1 = expression1;
+        this.expression2 = expression2;
     }
 }
