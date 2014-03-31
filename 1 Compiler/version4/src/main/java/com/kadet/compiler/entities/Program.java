@@ -1,4 +1,6 @@
-package com.kadet.compiler;
+package com.kadet.compiler.entities;
+
+import com.kadet.compiler.util.Errors;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class Program {
         return instance;
     }
 
+    private List<Procedure> procedures = new LinkedList<Procedure>();
     private List<Function> functions = new LinkedList<Function>();
     private List<Variable> variables = new LinkedList<Variable>();
     private List<Constant> constants = new LinkedList<Constant>();
@@ -37,6 +40,11 @@ public class Program {
 
     public void addFunction (Function function) {
         functions.add(function);
+    }
+
+    public void addProcedure (Procedure procedure) {
+        procedures.add(procedure);
+        System.out.println("Added procedure:" + procedure);
     }
 
 }

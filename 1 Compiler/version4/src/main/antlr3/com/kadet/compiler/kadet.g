@@ -36,7 +36,7 @@ program returns [ProgramEvaluator evaluator]
         (
             variable
             | constant
-            | procedure
+            | procedure                 { program.addProcedure($procedure.procedure); }
             | function
         )*
         'begin'                         {
@@ -277,11 +277,19 @@ expression returns [Expression expression]
         )*
     ;
 
-procedure
-    :   'procedure' ID '(' parameters? ')' '='
+procedure returns [Procedure procedure]
+    :   'procedure' id = ID                  { $procedure = new Procedure($id.text); }
+        '('
+            parameters?                      { if ($parameters.parameters != null) {
+                                                $procedure.setParameters($parameters.parameters);
+                                                }
+                                             }
+        ')' '='
         (constant | variable)*
         'begin'
-        statement*
+        (
+            statement                        { $procedure.addStatementEvaluator($statement.evaluator); }
+        )*
         'end' ID '.'
     ;
 
@@ -308,12 +316,19 @@ returnStatement
     :   'return' expression ';'
     ;
 
-parameters
-    :   parameter (',' parameter)*
+parameters returns [List<ProcedureParameter> parameters]
+@init {
+    $parameters = new ArrayList<ProcedureParameter>();
+}
+    :   parameter1 = parameter              { $parameters.add($parameter1.parameter); }
+        (
+            ','
+            parameter2 = parameter          { $parameters.add($parameter2.parameter); }
+        )*
     ;
 
-parameter
-    :   ID ':' type
+parameter returns [ProcedureParameter parameter]
+    :   ID ':' type                         { $parameter = new ProcedureParameter($ID.text, $type.TYPE); }
     ;
 
 

@@ -1,6 +1,6 @@
 package com.kadet.compiler.util;
 
-import com.kadet.compiler.Type;
+import com.kadet.compiler.entities.Type;
 import com.kadet.compiler.entities.*;
 
 import java.util.ArrayList;

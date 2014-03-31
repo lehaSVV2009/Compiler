@@ -1,7 +1,5 @@
 package com.kadet.compiler.entities;
 
-import com.kadet.compiler.Type;
-
 /**
  * Date: 31.03.14
  * Time: 0:28

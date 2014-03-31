@@ -1,6 +1,5 @@
 package com.kadet.compiler.expressions;
 
-import com.kadet.compiler.Type;
 import com.kadet.compiler.entities.*;
 import com.kadet.compiler.entities.Bool;
 import com.kadet.compiler.util.KadetException;

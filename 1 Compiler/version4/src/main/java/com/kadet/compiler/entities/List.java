@@ -1,7 +1,5 @@
 package com.kadet.compiler.entities;
 
-import com.kadet.compiler.Type;
-
 import java.util.ArrayList;
 
 /**

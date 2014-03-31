@@ -1,4 +1,4 @@
-package com.kadet.compiler;
+package com.kadet.compiler.entities;
 
 /**
  * Date: 30.03.14

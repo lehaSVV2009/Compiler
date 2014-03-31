@@ -1,4 +1,4 @@
-package com.kadet.compiler;
+package com.kadet.compiler.entities;
 
 import com.kadet.compiler.entities.Value;
 

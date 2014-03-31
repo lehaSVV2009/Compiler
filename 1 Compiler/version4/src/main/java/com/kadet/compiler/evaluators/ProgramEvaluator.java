@@ -1,7 +1,7 @@
 package com.kadet.compiler.evaluators;
 
-import com.kadet.compiler.Errors;
-import com.kadet.compiler.KadetError;
+import com.kadet.compiler.util.Errors;
+import com.kadet.compiler.util.KadetError;
 
 /**
  * Date: 30.03.14

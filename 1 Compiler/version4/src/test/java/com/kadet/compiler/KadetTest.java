@@ -555,6 +555,44 @@ public class KadetTest {
     }
 
 
+    @Test
+    public void procedureInit () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                       "\n constant one: Integer := 1;" +
+                                                       "\n procedure foo (x : Element) =" +
+                                                       "\n   constant y : Element := 12;" +
+                                                       "\n   var result : List;" +
+                                                       "\n begin" +
+                                                       "\n   x := x plus y;" +
+                                                       "\n   result := x + y;" +
+                                                       "\n end foo." +
+                                                       "\n begin " +
+                                                       "\n end XLSample.");
+        evaluator.evaluate();
+    }
+
+    @Test
+    public void procedureWithoutParametersInit () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                       "\n constant one: Integer := 1;" +
+                                                       "\n procedure foo () =" +
+                                                       "\n   constant y : Element := 12;" +
+                                                       "\n   var result : List;" +
+                                                       "\n begin" +
+                                                       "\n end foo." +
+                                                       "\n begin " +
+                                                       "\n end XLSample.");
+        evaluator.evaluate();
+    }
+
+
+
+
+
+
+
 
 
 }

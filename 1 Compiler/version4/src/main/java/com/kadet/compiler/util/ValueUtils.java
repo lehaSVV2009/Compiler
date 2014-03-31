@@ -1,12 +1,10 @@
 package com.kadet.compiler.util;
 
-import com.kadet.compiler.Type;
+import com.kadet.compiler.entities.Type;
 import com.kadet.compiler.entities.Bool;
 import com.kadet.compiler.entities.Int;
 import com.kadet.compiler.entities.List;
 import com.kadet.compiler.entities.Value;
-
-import java.util.AbstractCollection;
 
 /**
  * Date: 31.03.14

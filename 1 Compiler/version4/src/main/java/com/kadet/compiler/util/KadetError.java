@@ -1,4 +1,4 @@
-package com.kadet.compiler;
+package com.kadet.compiler.util;
 
 /**
  * Date: 30.03.14

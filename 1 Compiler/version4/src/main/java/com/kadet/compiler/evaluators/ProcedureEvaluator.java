@@ -1,7 +1,7 @@
 package com.kadet.compiler.evaluators;
 
-import com.kadet.compiler.Program;
-import com.kadet.compiler.Variable;
+import com.kadet.compiler.entities.Program;
+import com.kadet.compiler.entities.Variable;
 
 import java.util.ArrayList;
 import java.util.List;
