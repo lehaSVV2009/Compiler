@@ -1,5 +1,7 @@
 package com.kadet.compiler.evaluators;
 
+import com.kadet.compiler.entities.Procedure;
+import com.kadet.compiler.entities.Program;
 import com.kadet.compiler.entities.Value;
 import com.kadet.compiler.entities.Variable;
 import com.kadet.compiler.expressions.Expression;
@@ -20,25 +22,28 @@ public class AssignmentEvaluator implements StatementEvaluator {
 
     private String name;
     private Expression expression;
-    private List<Variable> variables;
 
-    public AssignmentEvaluator (String name, Expression expression, List<Variable> variables) {
+    public AssignmentEvaluator (String name, Expression expression) {
         this.name = name;
         this.expression = expression;
-        this.variables = variables;
     }
 
     @Override
     public void evaluate () {
         System.out.println("Assignment Evaluator Starts!");
+        Procedure currentProcedure = Program.getInstance().getCurrentProcedure();
         try {
-            if (!VariableUtils.hasSuchVariableName(name, variables)) {
+            if (currentProcedure == null) {
+                throw new KadetException("There is no current procedure!");
+            }
+            if (!VariableUtils.hasSuchVariableName(name, currentProcedure)) {
                 throw new KadetException("No such variable!");
             }
             Variable currentVariable = null;
-            for (Variable variable : variables) {
+            for (Variable variable : VariableUtils.getVariablesFromProcedure(currentProcedure)) {
                 if (variable.hasSuchName(name)) {
                     currentVariable = variable;
+                    break;
                 }
             }
             Value value = expression.calculate();

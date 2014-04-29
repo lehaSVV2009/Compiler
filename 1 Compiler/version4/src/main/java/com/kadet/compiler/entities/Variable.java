@@ -37,4 +37,7 @@ public class Variable {
         return this.name.equals(name);
     }
 
+    public Value getValue() {
+        return value;
+    }
 }

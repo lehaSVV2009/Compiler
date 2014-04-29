@@ -24,7 +24,7 @@ public class DivideExpression extends BinaryExpression {
         if (ValueUtils.isInteger(value1) && ValueUtils.isInteger(value2)) {
             return integerDivideInteger(value1, value2);
         }
-        throw new KadetException("PLUS Operation Error!");
+        throw new KadetException("DIVIDE Operation Error!");
     }
 
     private Value integerDivideInteger (Value value1, Value value2) {

@@ -22,7 +22,7 @@ public class LessOrEqualExpression extends BinaryExpression {
         Value value1 = expression1.calculate();
         Value value2 = expression2.calculate();
         if (!ValueUtils.isInteger(value1) || !ValueUtils.isInteger(value2)) {
-            throw new KadetException("Not Integer Values in Less Expression!");
+            throw new KadetException("Not Integer Values in Less Or Equal Expression!");
         }
         return (ValueUtils.getIntegerFromValue(value1) <= ValueUtils.getIntegerFromValue(value2)) ? new Bool(true) : new Bool(false);
     }

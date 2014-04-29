@@ -1,5 +1,6 @@
 package com.kadet.compiler.expressions;
 
+import com.kadet.compiler.entities.Bool;
 import com.kadet.compiler.entities.Value;
 import com.kadet.compiler.util.KadetException;
 
@@ -17,6 +18,8 @@ public class EqualExpression extends BinaryExpression {
 
     @Override
     public Value calculate () throws KadetException {
-        return expression1.calculate();
+        Value value1 = expression1.calculate();
+        Value value2 = expression2.calculate();
+        return (value1.equals(value2)) ? new Bool(true) : new Bool(false);
     }
 }

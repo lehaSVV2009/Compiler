@@ -32,19 +32,30 @@ options {
 }
 
 program returns [ProgramEvaluator evaluator]
-    :   'program' id = ID '='           { $evaluator = new ProgramEvaluator($id.text);}
-        (
-            variable                    { program.addVariables($variable.variables); }
-            | constant                  { program.addConstants($constant.constants); }
-            | procedure                 { program.addProcedure($procedure.procedure); }
-            | function                  { program.addFunction($function.function); }
-        )*
-        'begin'                         {
-                                          ProcedureEvaluator mainEvaluator = new ProcedureEvaluator("main");
-                                          $evaluator.setMainEvaluator(mainEvaluator);
+    :   'program' id = ID '='           {
+                                            program.setProgramName($id.text);
+                                            Procedure mainProcedure = new Procedure();
+                                            program.setCurrentProcedure(mainProcedure);
+                                            $evaluator = new ProgramEvaluator();
                                         }
         (
-            statement                   { mainEvaluator.addStatementEvaluator($statement.evaluator); }
+            variable                    {   mainProcedure.addVariables($variable.variables); }
+            | constant                  {   mainProcedure.addConstants($constant.constants); }
+            | procedure                 {
+                                            mainProcedure.addProcedure($procedure.procedure);
+                                            $procedure.procedure.setParentProcedure(mainProcedure);
+                                        }
+            | function                  {
+                                            mainProcedure.addFunction($function.function);
+                                            $function.function.setParentProcedure(mainProcedure);
+                                        }
+        )*
+        'begin'                         {
+                                            ProcedureEvaluator mainEvaluator = new ProcedureEvaluator(mainProcedure);
+                                            $evaluator.setMainEvaluator(mainEvaluator);
+                                        }
+        (
+            statement                   {   mainProcedure.addStatementEvaluator($statement.evaluator); }
         )*
         'end' ID '.'
     ;
@@ -146,11 +157,16 @@ ifStatement returns [IfEvaluator evaluator]
 whileStatement returns [WhileEvaluator evaluator]
 @init {
     $evaluator = new WhileEvaluator();
+    Choice whileChoice = null;
 }
-    :   'while' expression
+    :   'while' expression                      { whileChoice = new Choice($expression.expression); }
         'begin'
-            (statement)*
-        'end' 'while' ';'
+            (
+                statement                       { whileChoice.addStatementEvaluator($statement.evaluator); }
+            )*
+        'end' 'while' ';'                       {
+                                                    $evaluator.setWhileChoice(whileChoice);
+                                                }
     ;
 
 forStatement returns [ForEvaluator evaluator]
@@ -168,14 +184,7 @@ assignmentStatement returns [AssignmentEvaluator evaluator]
     ;
 
 assignment returns [AssignmentEvaluator evaluator]
-@init {
-    List<Variable> canBeUsedVariables = program.getVariables();
-    Procedure currentProcedure = program.getCurrentProcedure();
-    if (currentProcedure != null) {
-        //  TODO
-    }
-}
-    :	id = ID ':=' expression     { $evaluator = new AssignmentEvaluator($id.text, $expression.expression, canBeUsedVariables); }
+    :	id = ID ':=' expression     { $evaluator = new AssignmentEvaluator($id.text, $expression.expression); }
     ;
 
 //  expressions
@@ -184,7 +193,7 @@ term returns [Expression expression]
     :   element                                 { $expression = $element.expression; }
     |   list                                    { $expression = $list.expression; }
     |   '(' innerExpression = expression ')'    { $expression = $innerExpression.expression; }
-    |   ID
+    |   id = ID                                 { $expression = new VariableValueExpression($ID.text); }
     |   ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
     //|   ID '(' actualParameters ')'
     ;
@@ -309,13 +318,21 @@ procedure returns [Procedure procedure]
         '('
             parameters?                      {
                                                 if ($parameters.parameters != null) {
-                                                $procedure.setParameters($parameters.parameters);
+                                                  $procedure.setParameters($parameters.parameters);
                                                 }
                                              }
         ')' '='
         (
             constant                         { $procedure.addConstants($constant.constants); }
             | variable                       { $procedure.addVariables($variable.variables); }
+            | innerProcedure = procedure     {
+                                               $procedure.addProcedure($innerProcedure.procedure);
+                                               $innerProcedure.procedure.setParentProcedure($procedure);
+                                             }
+            | innerFunction = function       {
+                                               $procedure.addProcedure($innerFunction.function);
+                                               $innerFunction.function.setParentProcedure($procedure);
+                                             }
         )*
         'begin'
         (
@@ -349,6 +366,14 @@ function returns [Function function]
         (
             constant                         { $function.addConstants($constant.constants); }
             | variable                       { $function.addVariables($variable.variables); }
+            | innerProcedure = procedure     {
+                                               $function.addProcedure($innerProcedure.procedure);
+                                               $innerProcedure.procedure.setParentProcedure($function);
+                                             }
+            | innerFunction = function       {
+                                               $function.addProcedure($innerFunction.function);
+                                               $innerFunction.function.setParentProcedure($function);
+                                             }
         )*
         'begin'
         (

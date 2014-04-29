@@ -14,13 +14,24 @@ import java.util.List;
 public class Procedure {
 
     private String name;
+    private Procedure parentProcedure;
     private java.util.List<ProcedureParameter> parameters = new ArrayList<ProcedureParameter>();
     private java.util.List<StatementEvaluator> statementEvaluators = new ArrayList<StatementEvaluator>();
     private java.util.List<Variable> variables = new ArrayList<Variable>();
     private java.util.List<Constant> constants = new ArrayList<Constant>();
+    private java.util.List<Procedure> procedures = new LinkedList<Procedure>();
+    private java.util.List<Function> functions = new LinkedList<Function>();
 
-    public Procedure (String name) {
+
+    public Procedure () {
+    }
+
+    public Procedure(String name) {
         this.name = name;
+    }
+
+    public void setParentProcedure(Procedure parentProcedure) {
+        this.parentProcedure = parentProcedure;
     }
 
     public void setParameters (List<ProcedureParameter> parameters) {
@@ -53,6 +64,16 @@ public class Procedure {
         System.out.println("To procedure " + name + " added Constant : " + constant);
     }
 
+    public void addFunction (Function function) {
+        functions.add(function);
+        System.out.println("Added Function : " + function);
+    }
+
+    public void addProcedure (Procedure procedure) {
+        procedures.add(procedure);
+        System.out.println("Added Procedure :" + procedure);
+    }
+
     public String getName () {
         return name;
     }
@@ -64,5 +85,33 @@ public class Procedure {
                 ", parameters=" + parameters +
                 ", statementEvaluators=" + statementEvaluators +
                 '}';
+    }
+
+    public List<ProcedureParameter> getParameters() {
+        return parameters;
+    }
+
+    public List<StatementEvaluator> getStatementEvaluators() {
+        return statementEvaluators;
+    }
+
+    public List<Variable> getVariables() {
+        return variables;
+    }
+
+    public List<Constant> getConstants() {
+        return constants;
+    }
+
+    public List<Procedure> getProcedures() {
+        return procedures;
+    }
+
+    public List<Function> getFunctions() {
+        return functions;
+    }
+
+    public Procedure getParentProcedure() {
+        return parentProcedure;
     }
 }

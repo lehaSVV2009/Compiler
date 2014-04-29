@@ -1,5 +1,6 @@
 package com.kadet.compiler.evaluators;
 
+import com.kadet.compiler.entities.Function;
 import com.kadet.compiler.entities.Type;
 import com.kadet.compiler.entities.Variable;
 
@@ -15,8 +16,8 @@ public class FunctionEvaluator extends ProcedureEvaluator{
 
     private Type returnType;
 
-    public FunctionEvaluator (String name, List<Variable> parameters, Type type) {
-        super(name, parameters);
+    public FunctionEvaluator (Function function) {
+        super(function);
     }
 
     @Override

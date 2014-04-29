@@ -19,6 +19,8 @@ public class Program {
         return instance;
     }
 
+    private String programName = "";
+
     private List<Procedure> procedures = new LinkedList<Procedure>();
     private List<Function> functions = new LinkedList<Function>();
     private List<Variable> variables = new LinkedList<Variable>();
@@ -26,59 +28,21 @@ public class Program {
     private Errors errors = new Errors();
     private Procedure currentProcedure = null;
 
-    public static final String MAIN_NAME = "main";
-
     private Program () {}
 
-    public void addVariable (Variable variable) {
-        variables.add(variable);
-        System.out.println("Added Variable : " + variable);
+    public void setProgramName(String programName) {
+        this.programName = programName;
     }
 
-    public void addVariables (List<Variable> variables) {
-        for (Variable variable : variables) {
-            addVariable(variable);
-        }
-    }
-
-    public void addConstants (List<Constant> constants) {
-        for (Constant constant : constants) {
-            addConstant(constant);
-        }
-    }
-
-    public void addConstant (Constant constant) {
-        constants.add(constant);
-        System.out.println("Added Constant : " + constant);
-    }
-
-    public void addFunction (Function function) {
-        functions.add(function);
-        System.out.println("Added Function : " + function);
-    }
-
-    public void addProcedure (Procedure procedure) {
-        procedures.add(procedure);
-        System.out.println("Added Procedure :" + procedure);
-    }
-
-    public List<Procedure> getProcedures () {
-        return procedures;
-    }
-
-    public List<Function> getFunctions () {
-        return functions;
-    }
-
-    public List<Variable> getVariables () {
-        return variables;
-    }
-
-    public List<Constant> getConstants () {
-        return constants;
+    public void setCurrentProcedure(Procedure currentProcedure) {
+        this.currentProcedure = currentProcedure;
     }
 
     public Procedure getCurrentProcedure () {
         return currentProcedure;
+    }
+
+    public String getProgramName() {
+        return programName;
     }
 }
