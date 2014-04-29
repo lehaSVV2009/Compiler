@@ -34,10 +34,10 @@ options {
 program returns [ProgramEvaluator evaluator]
     :   'program' id = ID '='           { $evaluator = new ProgramEvaluator($id.text);}
         (
-            variable
-            | constant
+            variable                    { program.addVariables($variable.variables); }
+            | constant                  { program.addConstants($constant.constants); }
             | procedure                 { program.addProcedure($procedure.procedure); }
-            | function
+            | function                  { program.addFunction($function.function); }
         )*
         'begin'                         {
                                           ProcedureEvaluator mainEvaluator = new ProcedureEvaluator("main");
@@ -49,47 +49,40 @@ program returns [ProgramEvaluator evaluator]
         'end' ID '.'
     ;
 
-constant
+constant returns [List<Constant> constants]
     :   'constant' id = ID                     {
-                                                 List<Constant> initConstants = new ArrayList<Constant>();
+                                                 $constants = new ArrayList<Constant>();
                                                  Constant constant = new Constant($id.text);
-                                                 initConstants.add(constant);
+                                                 $constants.add(constant);
                                                }
        (
            ',' otherId = ID                    {
                                                  constant = new Constant($otherId.text);
-                                                 initConstants.add(constant);
+                                                 $constants.add(constant);
                                                }
         )*
        ':' type                                {
-                                                 for (Constant currentConstant : initConstants) {
+                                                 for (Constant currentConstant : $constants) {
                                                    currentConstant.setValue(ValueFactory.createValue($type.TYPE));
                                                  }
                                                }
        (':=' expression)? ';'
-
-                                               {
-                                                 for (Constant currentConstant : initConstants) {
-                                                   program.addConstant(currentConstant);
-                                                   System.out.println("Added constant:" + currentConstant);
-                                                 }
-                                               }
     ;
 
-variable
+variable returns [List<Variable> variables]
     :   'var' id = ID                           {
-                                                  List<Variable> initVariables = new ArrayList<Variable>();
+                                                  $variables = new ArrayList<Variable>();
                                                   Variable variable = new Variable($id.text);
-                                                  initVariables.add(variable);
+                                                  $variables.add(variable);
                                                 }
         (
             ',' otherId = ID                    {
                                                   variable = new Variable($otherId.text);
-                                                  initVariables.add(variable);
+                                                  $variables.add(variable);
                                                 }
          )*
         ':' type                                {
-                                                  for (Variable var : initVariables) {
+                                                  for (Variable var : $variables) {
                                                     var.setValue(ValueFactory.createValue($type.TYPE));
                                                   }
                                                 }
@@ -97,13 +90,6 @@ variable
         ':=' expression
         )?
         ';'
-
-                                                {
-                                                  for (Variable var : initVariables) {
-                                                    program.addVariable(var);
-                                                    System.out.println("Added variable:" + var);
-                                                  }
-                                                }
     ;
 
 type returns [Type TYPE]
@@ -123,15 +109,38 @@ statement returns [StatementEvaluator evaluator]
 
 ifStatement returns [IfEvaluator evaluator]
 @init {
+
     $evaluator = new IfEvaluator();
+    Choice ifChoice = null;
+    java.util.List<Choice> elsIfChoices = new java.util.ArrayList<Choice>();
+    Choice elsIfChoice = null;
+    Choice elseChoice = null;
+
 }
-    :   'if' expression 'then'
-            statement+
-        ('elsif' expression 'then'
-            statement+ )*
-        ('else'
-            statement+ )?
-        'end' 'if' ';'
+    :   'if' ifExpr = expression                { ifChoice = new Choice($ifExpr.expression); }
+         'then'
+            (
+                ifStat = statement              { ifChoice.addStatementEvaluator($ifStat.evaluator); }
+            )+
+         (
+        'elsif' elsIfExpr = expression          { elsIfChoice = new Choice($elsIfExpr.expression); }
+         'then'
+            (
+                elsIfStat = statement           { elsIfChoice.addStatementEvaluator($elsIfStat.evaluator); }
+            )+
+                                                { elsIfChoices.add(elsIfChoice); }
+         )*
+        ('else'                                 { elseChoice = new Choice(); }
+          'then'
+            (
+                elseStat = statement            { elseChoice.addStatementEvaluator($elseStat.evaluator); }
+            )+
+        )?
+        'end' 'if' ';'                          {
+                                                    $evaluator.setIfChoice(ifChoice);
+                                                    $evaluator.setElsIfChoices(elsIfChoices);
+                                                    $evaluator.setElseChoice(elseChoice);
+                                                }
     ;
 
 whileStatement returns [WhileEvaluator evaluator]
@@ -159,7 +168,14 @@ assignmentStatement returns [AssignmentEvaluator evaluator]
     ;
 
 assignment returns [AssignmentEvaluator evaluator]
-    :	id = ID ':=' expression     { $evaluator = new AssignmentEvaluator($id.text, $expression.expression); }
+@init {
+    List<Variable> canBeUsedVariables = program.getVariables();
+    Procedure currentProcedure = program.getCurrentProcedure();
+    if (currentProcedure != null) {
+        //  TODO
+    }
+}
+    :	id = ID ':=' expression     { $evaluator = new AssignmentEvaluator($id.text, $expression.expression, canBeUsedVariables); }
     ;
 
 //  expressions
@@ -167,21 +183,32 @@ assignment returns [AssignmentEvaluator evaluator]
 term returns [Expression expression]
     :   element                                 { $expression = $element.expression; }
     |   list                                    { $expression = $list.expression; }
-    |   ID '(' actualParameters ')'
     |   '(' innerExpression = expression ')'    { $expression = $innerExpression.expression; }
-    |	elementFromList                         { $expression = $elementFromList.expression; }
+    |   ID
+    |   ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
+    //|   ID '(' actualParameters ')'
     ;
 
-elementFromList returns [Expression expression]
-    :	ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
-    ;
+
+
+///plus: expression (| expression '+' );
+
+
+///NUMBER: ('0'..'9')*;
+
+///plus: expression (| expression '+' );
+///expression: NUMBER | '(' plus ')';
+
+//elementFromList returns [Expression expression]
+//    :	ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
+//    ;
 
 element returns [Expression expression]
     :   INTEGER                                 { $expression = new ValueExpression(new Int(Integer.parseInt($INTEGER.text))); }
     |   '@true'                                 { $expression = new ValueExpression(new Bool(Boolean.parseBoolean("true"))); }
     |   '@false'                                { $expression = new ValueExpression(new Bool(Boolean.parseBoolean("false"))); }
- //   |   ID
     ;
+
 
 list returns [Expression expression]
 @init {
@@ -260,11 +287,11 @@ relation returns [Expression expression]
     :   expression1 = add                           { $expression = $expression1.expression; }
         (
         'equal'    expression2 = add                { $expression = new EqualExpression($expression, $expression2.expression); }
-        | 'not equal'  expression2 = add            { $expression = new NotEqualExpression($expression, $expression2.expression); }
+        | 'notEqual'  expression2 = add            { $expression = new NotEqualExpression($expression, $expression2.expression); }
         | 'lessOrEqual'   expression2 = add         { $expression = new LessOrEqualExpression($expression, $expression2.expression); }
         | 'less'   expression2 = add                { $expression = new LessExpression($expression, $expression2.expression); }
         | 'greater'   expression2 = add             { $expression = new GreaterExpression($expression, $expression2.expression); }
-        | 'greaterOrEqual' add  expression2 = add   { $expression = new GreaterOrEqualExpression($expression, $expression2.expression); }
+        | 'greaterOrEqual' expression2 = add   { $expression = new GreaterOrEqualExpression($expression, $expression2.expression); }
         )*
     ;
 
@@ -280,12 +307,16 @@ expression returns [Expression expression]
 procedure returns [Procedure procedure]
     :   'procedure' id = ID                  { $procedure = new Procedure($id.text); }
         '('
-            parameters?                      { if ($parameters.parameters != null) {
+            parameters?                      {
+                                                if ($parameters.parameters != null) {
                                                 $procedure.setParameters($parameters.parameters);
                                                 }
                                              }
         ')' '='
-        (constant | variable)*
+        (
+            constant                         { $procedure.addConstants($constant.constants); }
+            | variable                       { $procedure.addVariables($variable.variables); }
+        )*
         'begin'
         (
             statement                        { $procedure.addStatementEvaluator($statement.evaluator); }
@@ -304,16 +335,31 @@ actualParameters
     :   ( expression (',' expression)* )?
     ;
 
-function
-    :   'function' ID '(' parameters? ')' ':' type '='
-        (constant | variable)*
+function returns [Function function]
+    :   'function' id = ID                   { $function = new Function($id.text); }
+        '('
+            parameters?                      {
+                                               if ($parameters.parameters != null) {
+                                                 $function.setParameters($parameters.parameters);
+                                               }
+                                             }
+        ')'
+        ':' type                             { $function.setReturnType($type.TYPE); }
+        '='
+        (
+            constant                         { $function.addConstants($constant.constants); }
+            | variable                       { $function.addVariables($variable.variables); }
+        )*
         'begin'
-        (statement|returnStatement)*
+        (
+            statement                        { $function.addStatementEvaluator($statement.evaluator); }
+            | returnStatement                { $function.addStatementEvaluator($returnStatement.evaluator); }
+        )*
         'end' ID '.'
     ;
 
-returnStatement
-    :   'return' expression ';'
+returnStatement returns [StatementEvaluator evaluator]
+    :   'return' expression ';'              { $evaluator = new ReturnStatementEvaluator($expression.expression); }
     ;
 
 parameters returns [List<ProcedureParameter> parameters]
@@ -331,7 +377,6 @@ parameter returns [ProcedureParameter parameter]
     :   ID ':' type                         { $parameter = new ProcedureParameter($ID.text, $type.TYPE); }
     ;
 
-
 fragment LETTER
     :   ('a'..'z' | 'A'..'Z')
     ;
@@ -347,7 +392,6 @@ ID
 INTEGER
     :   DIGIT+
     ;
-
 
 STRING_LITERAL
     :   '"'

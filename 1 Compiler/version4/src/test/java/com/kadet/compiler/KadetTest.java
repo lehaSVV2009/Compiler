@@ -10,7 +10,7 @@ public class KadetTest {
 
     }
 
-
+/*
     @Test
 	public void correctProgram () {
         KadetCompiler compiler = new KadetCompiler();
@@ -85,7 +85,7 @@ public class KadetTest {
                                  "end Test1.");
     }
 */
-
+/*
     @Test
     public void ifTest () {
         KadetCompiler compiler = new KadetCompiler();
@@ -375,6 +375,7 @@ public class KadetTest {
     }
 
 */
+    /*
     @Test
 	public void whileStatement () {
         KadetCompiler compiler = new KadetCompiler();
@@ -429,7 +430,7 @@ public class KadetTest {
                                  "" +
                                  " end XLSample.");
     }
-
+*/
 
 //
 // Worked:
@@ -564,8 +565,8 @@ public class KadetTest {
                                                        "\n   constant y : Element := 12;" +
                                                        "\n   var result : List;" +
                                                        "\n begin" +
-                                                       "\n   x := x plus y;" +
-                                                       "\n   result := x + y;" +
+                                                       "\n   x := 1 plus 2;" +
+                                                       "\n   result := 3 + 4;" +
                                                        "\n end foo." +
                                                        "\n begin " +
                                                        "\n end XLSample.");
@@ -587,7 +588,91 @@ public class KadetTest {
         evaluator.evaluate();
     }
 
+    @Test
+    public void functionInit () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                       "\n constant one: Integer := 1;" +
+                                                       "\n function fee () : Integer =" +
+                                                       "\n   constant y : Element := 12;" +
+                                                       "\n   var result : List;" +
+                                                       "\n begin" +
+                                                       "\n   return 12;" +
+                                                       "\n end foo." +
+                                                       "\n begin " +
+                                                       "\n end XLSample.");
+        evaluator.evaluate();
+    }
 
+    @Test
+    public void ifTrueTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                    "\n constant one : Integer := 1;" +
+                                                    "\n var x : Integer;" +
+                                                    "\n begin " +
+                                                    "\n   if 3 less 5 then" +
+                                                    "\n      x := 1 plus 4;" +
+                                                    "\n   end if;" +
+                                                    "\n end XLSample.");
+        evaluator.evaluate();
+
+    }
+
+    @Test
+    public void ifFalseTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                    "\n constant one : Integer := 1;" +
+                                                    "\n var x : Integer;" +
+                                                    "\n begin " +
+                                                    "\n   if (3 greater 5) then" +
+                                                    "\n      x := 1 plus 4;" +
+                                                    "\n   end if;" +
+                                                    "\n end XLSample.");
+        evaluator.evaluate();
+
+    }
+
+
+
+    @Test
+    public void ifElseIfTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                    "\n constant one : Integer := 1;" +
+                                                    "\n var x : Integer;" +
+                                                    "\n begin " +
+                                                    "\n   if (3 greater 5) then" +
+                                                    "\n      x := 1 plus 4;" +
+                                                    "\n   elsif @false then" +
+                                                    "\n      x := 2 plus 4;" +
+                                                    "\n   elsif @true then" +
+                                                    "\n      x := 3 plus 4;" +
+                                                    "\n   end if;" +
+                                                    "\n end XLSample.");
+        evaluator.evaluate();
+
+    }
+
+
+
+    @Test
+    public void ifElseTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                                                    "\n constant one : Integer := 1;" +
+                                                    "\n var x : Integer;" +
+                                                    "\n begin " +
+                                                    "\n   if 6 greaterOrEqual 7 then" +
+                                                    "\n      x := 1 plus 4;" +
+                                                    "\n   else then" +
+                                                    "\n      x := 5 plus 4;" +
+                                                    "\n   end if;" +
+                                                    "\n end XLSample.");
+        evaluator.evaluate();
+
+    }
 
 
 

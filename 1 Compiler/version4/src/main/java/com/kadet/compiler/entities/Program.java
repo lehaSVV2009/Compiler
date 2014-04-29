@@ -24,7 +24,7 @@ public class Program {
     private List<Variable> variables = new LinkedList<Variable>();
     private List<Constant> constants = new LinkedList<Constant>();
     private Errors errors = new Errors();
-    private Function curFun = null;
+    private Procedure currentProcedure = null;
 
     public static final String MAIN_NAME = "main";
 
@@ -32,19 +32,53 @@ public class Program {
 
     public void addVariable (Variable variable) {
         variables.add(variable);
+        System.out.println("Added Variable : " + variable);
+    }
+
+    public void addVariables (List<Variable> variables) {
+        for (Variable variable : variables) {
+            addVariable(variable);
+        }
+    }
+
+    public void addConstants (List<Constant> constants) {
+        for (Constant constant : constants) {
+            addConstant(constant);
+        }
     }
 
     public void addConstant (Constant constant) {
         constants.add(constant);
+        System.out.println("Added Constant : " + constant);
     }
 
     public void addFunction (Function function) {
         functions.add(function);
+        System.out.println("Added Function : " + function);
     }
 
     public void addProcedure (Procedure procedure) {
         procedures.add(procedure);
-        System.out.println("Added procedure:" + procedure);
+        System.out.println("Added Procedure :" + procedure);
     }
 
+    public List<Procedure> getProcedures () {
+        return procedures;
+    }
+
+    public List<Function> getFunctions () {
+        return functions;
+    }
+
+    public List<Variable> getVariables () {
+        return variables;
+    }
+
+    public List<Constant> getConstants () {
+        return constants;
+    }
+
+    public Procedure getCurrentProcedure () {
+        return currentProcedure;
+    }
 }

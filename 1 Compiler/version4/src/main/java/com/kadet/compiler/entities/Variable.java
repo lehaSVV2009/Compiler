@@ -1,7 +1,5 @@
 package com.kadet.compiler.entities;
 
-import com.kadet.compiler.entities.Value;
-
 /**
  * Date: 30.03.14
  * Time: 12:38
@@ -28,4 +26,15 @@ public class Variable {
                 ", value=" + value +
                 '}';
     }
+
+    public Variable copy () {
+        Variable variable = new Variable(name);
+        variable.setValue(value);
+        return variable;
+    }
+
+    public boolean hasSuchName (String name) {
+        return this.name.equals(name);
+    }
+
 }

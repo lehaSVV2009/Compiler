@@ -1,5 +1,7 @@
 package com.kadet.compiler.entities;
 
+import com.kadet.compiler.evaluators.ReturnStatementEvaluator;
+
 import java.util.*;
 import java.util.List;
 
@@ -13,11 +15,13 @@ public class Function extends Procedure {
 
     private Type returnType;
 
-    public Function (String name, Type returnType) {
+    public Function (String name) {
         super(name);
-        this.returnType = returnType;
     }
 
+    public void setReturnType (Type returnType) {
+        this.returnType = returnType;
+    }
 
     public Type getReturnType () {
         return returnType;
