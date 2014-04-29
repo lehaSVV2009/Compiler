@@ -172,11 +172,21 @@ whileStatement returns [WhileEvaluator evaluator]
 forStatement returns [ForEvaluator evaluator]
 @init {
     $evaluator = new ForEvaluator();
+    Choice forChoice = null;
 }
-    :   'for' '(' assignment ';' expression ';' assignment ')'
+    :   'for'
+        '('
+            op1 = assignment                    { $evaluator.setInitializeCounterEvaluator($op1.evaluator); }
+            ';'
+            expression                          { forChoice = new Choice($expression.expression); }
+            ';'
+            op2 = assignment                    { $evaluator.setIncreaseCounterEvaluator($op2.evaluator); }
+        ')'
         'begin'
-            (statement)*
-        'end' 'for' ';'
+            (
+                statement                       { forChoice.addStatementEvaluator($statement.evaluator); }
+            )*
+        'end' 'for' ';'                         { $evaluator.setForChoice(forChoice); }
     ;
 
 assignmentStatement returns [AssignmentEvaluator evaluator]

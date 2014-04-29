@@ -1,9 +1,7 @@
 package com.kadet.compiler.evaluators;
 
 import com.kadet.compiler.entities.Choice;
-import com.kadet.compiler.entities.Value;
 import com.kadet.compiler.util.KadetException;
-import com.kadet.compiler.util.ValueUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
  *
  * @author Кадет
  */
-public class IfEvaluator implements StatementEvaluator {
+public class IfEvaluator extends ChoiceEvaluator {
 
     private Choice ifChoice = null;
 
@@ -72,20 +70,6 @@ public class IfEvaluator implements StatementEvaluator {
 
     }
 
-    private boolean checkChoiceExpression (Choice choice) throws KadetException {
-        Value expressionResult = choice.getExpression().calculate();
-        if (!ValueUtils.isBoolean(expressionResult)) {
-            throw new KadetException("Not Boolean expression in If ()!");
-        }
-        return ValueUtils.getBooleanFromValue(expressionResult);
-    }
-
-    private void evaluateChoice (Choice choice) {
-        List<StatementEvaluator> statementEvaluators = choice.getStatementEvaluators();
-        for (StatementEvaluator evaluator : statementEvaluators) {
-            evaluator.evaluate();
-        }
-    }
 
     @Override
     public String toString() {

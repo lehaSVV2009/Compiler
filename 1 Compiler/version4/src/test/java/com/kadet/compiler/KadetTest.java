@@ -696,10 +696,59 @@ public class KadetTest {
                 "\n var x : Integer;" +
                 "\n begin " +
                 "\n   x := 2 plus 3;" +
-                "\n   x := 4 plus x;" +
+                "\n   x := 4 + x;" +
                 "\n end XLSample.");
         evaluator.evaluate();
     }
+
+
+    @Test
+    public void whileTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n constant one : Integer := 1;" +
+                "\n var x : Integer;" +
+                "\n begin " +
+                "\n   x := 2;" +
+                "\n   while x less 4" +
+                "\n   begin" +
+                "\n     x := x plus 1;" +
+                "\n   end while;" +
+                "\n end XLSample.");
+        evaluator.evaluate();
+    }
+
+    @Test
+    public void forTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n constant one : Integer := 1;" +
+                "\n var i : Integer;" +
+                "\n var x : Integer;" +
+                "\n begin " +
+                "\n   for ( i := 4; i less 10; i := i plus 1 ) " +
+                "\n   begin" +
+                "\n     x := x + 1;" +
+                "\n   end for;" +
+                "\n end XLSample.");
+        evaluator.evaluate();
+    }
+
+    /*@Test(timeout = 5000)
+    public void whileStackOverFlowTest () {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n constant one : Integer := 1;" +
+                "\n var x : Integer;" +
+                "\n begin " +
+                "\n   x := 2;" +
+                "\n   while @true" +
+                "\n   begin" +
+                "\n     x := x plus 1;" +
+                "\n   end while;" +
+                "\n end XLSample.");
+        evaluator.evaluate();
+    }*/
 
 
 
