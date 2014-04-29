@@ -1,5 +1,7 @@
 package com.kadet.compiler.entities;
 
+import com.kadet.compiler.util.ValueFactory;
+
 /**
  * Date: 30.03.14
  * Time: 12:38
@@ -13,6 +15,11 @@ public class Variable {
 
     public Variable (String name) {
         this.name = name;
+    }
+
+    public Variable(ProcedureParameter parameter) {
+        this.name = parameter.getName();
+        this.value = ValueFactory.createValue(parameter.getType());
     }
 
     public void setValue (Value value) {

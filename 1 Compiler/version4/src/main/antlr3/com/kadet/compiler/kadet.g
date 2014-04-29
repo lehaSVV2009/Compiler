@@ -352,14 +352,19 @@ procedure returns [Procedure procedure]
     ;
 
 procedureCallStatement returns [ProcedureCallEvaluator evaluator]
-@init {
-    $evaluator = new ProcedureCallEvaluator();
-}
-    :   ID '(' actualParameters ')' ';'
+    :   id = ID '(' actualParameters ')' ';'    { $evaluator = new ProcedureCallEvaluator($id.text, $actualParameters.expressions); }
     ;
 
-actualParameters
-    :   ( expression (',' expression)* )?
+actualParameters returns [List<Expression> expressions]
+@init {
+    $expressions = new ArrayList<Expression>();
+}
+    :   (
+            expr1 = expression          { $expressions.add($expr1.expression); }
+            (','
+                expr2 = expression      { $expressions.add($expr2.expression); }
+            )*
+        )?
     ;
 
 function returns [Function function]

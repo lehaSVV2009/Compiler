@@ -752,4 +752,32 @@ public class KadetTest {
 
 
 
+    @Test
+    public void bigProcedureCall() {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n constant one: Integer := 1;" +
+                "\n procedure foo () =" +
+                "\n   var x : Integer;" +
+                "\n   var y : Integer := 12;" +
+                "\n   var result : List;" +
+                "\n" +
+                "\n   procedure foofoo () = " +
+                "\n   begin" +
+                "\n     x := 12;" +
+                "\n   end foofoo." +
+                "\n" +
+                "\n begin" +
+                "\n   y := 1 plus y;" +
+                "\n   result := y + 4;" +
+                "\n   foofoo();" +
+                "\n   x := x + 1;" +
+                "\n end foo." +
+                "\n begin " +
+                "\n   foo();" +
+                "\n end XLSample.");
+        evaluator.evaluate();
+    }
+
+
 }

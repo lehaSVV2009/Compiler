@@ -19,8 +19,8 @@ public class Procedure {
     private java.util.List<StatementEvaluator> statementEvaluators = new ArrayList<StatementEvaluator>();
     private java.util.List<Variable> variables = new ArrayList<Variable>();
     private java.util.List<Constant> constants = new ArrayList<Constant>();
-    private java.util.List<Procedure> procedures = new LinkedList<Procedure>();
-    private java.util.List<Function> functions = new LinkedList<Function>();
+    private java.util.List<Procedure> procedures = new ArrayList<Procedure>();
+    private java.util.List<Function> functions = new ArrayList<Function>();
 
 
     public Procedure () {
@@ -36,6 +36,10 @@ public class Procedure {
 
     public void setParameters (List<ProcedureParameter> parameters) {
         this.parameters = parameters;
+        for (ProcedureParameter parameter : parameters) {
+            Variable variable = new Variable(parameter);
+            variables.add(variable);
+        }
     }
 
     public void addStatementEvaluator (StatementEvaluator statementEvaluator) {
@@ -76,6 +80,11 @@ public class Procedure {
 
     public String getName () {
         return name;
+    }
+
+
+    public boolean hasSuchName (String name) {
+        return this.name.equals(name);
     }
 
     @Override

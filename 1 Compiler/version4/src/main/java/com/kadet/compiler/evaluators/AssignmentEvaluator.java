@@ -32,6 +32,7 @@ public class AssignmentEvaluator implements StatementEvaluator {
     public void evaluate () {
         System.out.println("Assignment Evaluator Starts!");
         Procedure currentProcedure = Program.getInstance().getCurrentProcedure();
+        System.out.println("Assignment in procedure: " + currentProcedure);
         try {
             if (currentProcedure == null) {
                 throw new KadetException("There is no current procedure!");
@@ -39,13 +40,14 @@ public class AssignmentEvaluator implements StatementEvaluator {
             if (!VariableUtils.hasSuchVariableName(name, currentProcedure)) {
                 throw new KadetException("No such variable!");
             }
-            Variable currentVariable = null;
+            /*Variable currentVariable = null;
             for (Variable variable : VariableUtils.getVariablesFromProcedure(currentProcedure)) {
                 if (variable.hasSuchName(name)) {
                     currentVariable = variable;
                     break;
                 }
-            }
+            } */
+            Variable currentVariable = VariableUtils.getVariableFromProcedure(name, currentProcedure);
             Value value = expression.calculate();
             if (value == null) {
                 throw new KadetException("Bad Value!");
