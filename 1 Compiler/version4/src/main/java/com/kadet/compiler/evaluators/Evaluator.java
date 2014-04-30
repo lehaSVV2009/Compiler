@@ -1,5 +1,7 @@
 package com.kadet.compiler.evaluators;
 
+import com.kadet.compiler.util.KadetException;
+
 /**
  * Date: 30.03.14
  * Time: 12:53
@@ -8,6 +10,6 @@ package com.kadet.compiler.evaluators;
  */
 public interface Evaluator {
 
-    void evaluate ();
+    void evaluate () throws KadetException;
 
 }

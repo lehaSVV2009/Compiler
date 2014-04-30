@@ -3,6 +3,7 @@ package com.kadet.compiler.evaluators;
 import com.kadet.compiler.entities.Program;
 import com.kadet.compiler.util.Errors;
 import com.kadet.compiler.util.KadetError;
+import com.kadet.compiler.util.KadetException;
 
 /**
  * Date: 30.03.14
@@ -14,15 +15,15 @@ public class ProgramEvaluator implements Evaluator {
 
     private ProcedureEvaluator mainEvaluator;
 
-    public ProgramEvaluator () {
+    public ProgramEvaluator() {
     }
 
-    public void setMainEvaluator (ProcedureEvaluator mainEvaluator) {
+    public void setMainEvaluator(ProcedureEvaluator mainEvaluator) {
         this.mainEvaluator = mainEvaluator;
     }
 
     @Override
-    public void evaluate () {
+    public void evaluate() throws KadetException {
         System.out.println("Program " + Program.getInstance().getProgramName() + " Starts!");
         if (mainEvaluator == null) {
             Errors.addError(

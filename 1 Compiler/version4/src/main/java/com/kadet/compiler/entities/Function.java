@@ -13,17 +13,8 @@ import java.util.List;
  */
 public class Function extends Procedure {
 
-    private Type returnType;
-
     public Function (String name) {
         super(name);
     }
 
-    public void setReturnType (Type returnType) {
-        this.returnType = returnType;
-    }
-
-    public Type getReturnType () {
-        return returnType;
-    }
 }

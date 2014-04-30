@@ -24,7 +24,7 @@ public abstract class ChoiceEvaluator implements StatementEvaluator {
         return ValueUtils.getBooleanFromValue(expressionResult);
     }
 
-    protected void evaluateChoice(Choice choice) {
+    protected void evaluateChoice(Choice choice) throws KadetException {
         List<StatementEvaluator> statementEvaluators = choice.getStatementEvaluators();
         for (StatementEvaluator evaluator : statementEvaluators) {
             evaluator.evaluate();

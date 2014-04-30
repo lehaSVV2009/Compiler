@@ -28,23 +28,18 @@ public class ForEvaluator extends ChoiceEvaluator {
     }
 
     @Override
-    public void evaluate () {
+    public void evaluate() throws KadetException {
         System.out.println("For Evaluator Starts! (" + this + ")");
-        try {
-            if (forChoice == null) {
-                throw new KadetException("No For expression!");
-            }
-            if (initializeCounterEvaluator != null) {
-                initializeCounterEvaluator.evaluate();
-            }
-            while (checkChoiceExpression(forChoice)) {
-                System.out.println("For is true!");
-                evaluateChoice(forChoice);
-                increaseCounterEvaluator.evaluate();
-            }
-
-        } catch (KadetException e) {
-            e.printStackTrace();
+        if (forChoice == null) {
+            throw new KadetException("No For expression!");
+        }
+        if (initializeCounterEvaluator != null) {
+            initializeCounterEvaluator.evaluate();
+        }
+        while (checkChoiceExpression(forChoice)) {
+            System.out.println("For is true!");
+            evaluateChoice(forChoice);
+            increaseCounterEvaluator.evaluate();
         }
 
     }

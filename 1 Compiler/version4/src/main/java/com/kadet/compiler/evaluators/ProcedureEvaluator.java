@@ -3,6 +3,7 @@ package com.kadet.compiler.evaluators;
 import com.kadet.compiler.entities.Procedure;
 import com.kadet.compiler.entities.Program;
 import com.kadet.compiler.entities.Variable;
+import com.kadet.compiler.util.KadetException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class ProcedureEvaluator implements Evaluator {
 
-    private Procedure procedure = null;
+    protected Procedure procedure = null;
 
     /*private String name;
     private Program program = Program.getInstance();
@@ -30,22 +31,27 @@ public class ProcedureEvaluator implements Evaluator {
         this.procedure = procedure;
     }
 
+
     public void setProcedure(Procedure procedure) {
         this.procedure = procedure;
     }
 
 
     @Override
-    public void evaluate() {
-        if (procedure != null) {
-            Program.getInstance().setCurrentProcedure(procedure);
-            System.out.println(procedure.getName() + " Starts!");
-            for (StatementEvaluator statementEvaluator : procedure.getStatementEvaluators()) {
-                statementEvaluator.evaluate();
-            }
-            if (procedure.getParentProcedure() != null) {
-                Program.getInstance().setCurrentProcedure(procedure.getParentProcedure());
-            }
+    public void evaluate() throws KadetException {
+        if (procedure == null) {
+            throw new KadetException("No procedure to evaluate!");
+        }
+        Program.getInstance().setCurrentProcedure(procedure);
+        evaluateProcedureStatements(procedure);
+        if (procedure.getParentProcedure() != null) {
+            Program.getInstance().setCurrentProcedure(procedure.getParentProcedure());
+        }
+    }
+
+    protected void evaluateProcedureStatements(Procedure procedure) throws KadetException {
+        for (StatementEvaluator statementEvaluator : procedure.getStatementEvaluators()) {
+            statementEvaluator.evaluate();
         }
     }
 

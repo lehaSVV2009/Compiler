@@ -25,7 +25,7 @@ public class OrExpression extends BinaryExpression {
                 return new Bool(true);
             }
         }
-        throw new KadetException("AND Operation  Error!");
+        throw new KadetException("Or Operation  Error!");
     }
 
 

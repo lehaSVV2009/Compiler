@@ -18,18 +18,14 @@ public class WhileEvaluator extends ChoiceEvaluator {
     }
 
     @Override
-    public void evaluate () {
+    public void evaluate() throws KadetException {
         System.out.println("While Evaluator Starts! ");
-        try {
-            if (whileChoice == null) {
-                throw new KadetException("No If expression!");
-            }
-            while (checkChoiceExpression(whileChoice)) {
-                System.out.println("While is true!");
-                evaluateChoice(whileChoice);
-            }
-        } catch (KadetException e) {
-            e.printStackTrace();
+        if (whileChoice == null) {
+            throw new KadetException("No While expression!");
+        }
+        while (checkChoiceExpression(whileChoice)) {
+            System.out.println("While is true!");
+            evaluateChoice(whileChoice);
         }
 
     }

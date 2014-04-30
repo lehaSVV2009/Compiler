@@ -97,9 +97,9 @@ variable returns [List<Variable> variables]
                                                     var.setValue(ValueFactory.createValue($type.TYPE));
                                                   }
                                                 }
-        (
-        ':=' expression
-        )?
+        //(
+        //':=' expression
+        //)?
         ';'
     ;
 
@@ -205,7 +205,7 @@ term returns [Expression expression]
     |   '(' innerExpression = expression ')'    { $expression = $innerExpression.expression; }
     |   id = ID                                 { $expression = new VariableValueExpression($ID.text); }
     |   ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
-    //|   ID '(' actualParameters ')'
+    |   'f:' ID '(' actualParameters ')'        { $expression = new FunctionCallExpression($ID.text, $actualParameters.expressions); }
     ;
 
 
@@ -340,7 +340,7 @@ procedure returns [Procedure procedure]
                                                $innerProcedure.procedure.setParentProcedure($procedure);
                                              }
             | innerFunction = function       {
-                                               $procedure.addProcedure($innerFunction.function);
+                                               $procedure.addFunction($innerFunction.function);
                                                $innerFunction.function.setParentProcedure($procedure);
                                              }
         )*
@@ -376,7 +376,6 @@ function returns [Function function]
                                                }
                                              }
         ')'
-        ':' type                             { $function.setReturnType($type.TYPE); }
         '='
         (
             constant                         { $function.addConstants($constant.constants); }
@@ -386,7 +385,7 @@ function returns [Function function]
                                                $innerProcedure.procedure.setParentProcedure($function);
                                              }
             | innerFunction = function       {
-                                               $function.addProcedure($innerFunction.function);
+                                               $function.addFunction($innerFunction.function);
                                                $innerFunction.function.setParentProcedure($function);
                                              }
         )*

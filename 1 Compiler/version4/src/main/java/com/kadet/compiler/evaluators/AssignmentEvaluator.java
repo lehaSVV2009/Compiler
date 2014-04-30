@@ -23,23 +23,22 @@ public class AssignmentEvaluator implements StatementEvaluator {
     private String name;
     private Expression expression;
 
-    public AssignmentEvaluator (String name, Expression expression) {
+    public AssignmentEvaluator(String name, Expression expression) {
         this.name = name;
         this.expression = expression;
     }
 
     @Override
-    public void evaluate () {
+    public void evaluate() throws KadetException {
         System.out.println("Assignment Evaluator Starts!");
         Procedure currentProcedure = Program.getInstance().getCurrentProcedure();
         System.out.println("Assignment in procedure: " + currentProcedure);
-        try {
-            if (currentProcedure == null) {
-                throw new KadetException("There is no current procedure!");
-            }
-            if (!VariableUtils.hasSuchVariableName(name, currentProcedure)) {
-                throw new KadetException("No such variable!");
-            }
+        if (currentProcedure == null) {
+            throw new KadetException("There is no current procedure!");
+        }
+        if (!VariableUtils.hasSuchVariableName(name, currentProcedure)) {
+            throw new KadetException("No such variable!");
+        }
             /*Variable currentVariable = null;
             for (Variable variable : VariableUtils.getVariablesFromProcedure(currentProcedure)) {
                 if (variable.hasSuchName(name)) {
@@ -47,18 +46,13 @@ public class AssignmentEvaluator implements StatementEvaluator {
                     break;
                 }
             } */
-            Variable currentVariable = VariableUtils.getVariableFromProcedure(name, currentProcedure);
-            Value value = expression.calculate();
-            if (value == null) {
-                throw new KadetException("Bad Value!");
-            }
-            currentVariable.setValue(value);
-            System.out.println("Value assign to variable. Variable : " + currentVariable);
-        } catch (KadetException e) {
-            Errors.addError(
-                    new KadetError(e.getMessage()));
-            e.printStackTrace();
+        Variable currentVariable = VariableUtils.getVariableFromProcedure(name, currentProcedure);
+        Value value = expression.calculate();
+        if (value == null) {
+            throw new KadetException("Bad Value!");
         }
+        currentVariable.setValue(value);
+        System.out.println("Value assign to variable. Variable : " + currentVariable);
     }
 
 

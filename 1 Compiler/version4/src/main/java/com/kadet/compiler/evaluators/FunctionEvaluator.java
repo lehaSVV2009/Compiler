@@ -1,8 +1,8 @@
 package com.kadet.compiler.evaluators;
 
-import com.kadet.compiler.entities.Function;
-import com.kadet.compiler.entities.Type;
-import com.kadet.compiler.entities.Variable;
+import com.kadet.compiler.entities.*;
+import com.kadet.compiler.util.KadetException;
+import com.kadet.compiler.util.ValueFactory;
 
 import java.util.List;
 
@@ -14,14 +14,28 @@ import java.util.List;
  */
 public class FunctionEvaluator extends ProcedureEvaluator{
 
-    private Type returnType;
+    private Value returnValue = ValueFactory.createValue(Type.VALUE);
 
     public FunctionEvaluator (Function function) {
         super(function);
     }
 
     @Override
-    public void evaluate () {
-        super.evaluate();    //To change body of overridden methods use File | Settings | File Templates.
+    protected void evaluateProcedureStatements(Procedure procedure) throws KadetException {
+        for (StatementEvaluator evaluator : procedure.getStatementEvaluators()) {
+            if (evaluator instanceof ReturnStatementEvaluator) {
+                ReturnStatementEvaluator returnEvaluator
+                        = (ReturnStatementEvaluator) evaluator;
+                returnEvaluator.evaluate();
+                this.returnValue = returnEvaluator.getReturnValue();
+                return;
+            }
+            evaluator.evaluate();
+        }
+        throw new KadetException("There is no return statement!");
+    }
+
+    public Value getReturnValue() {
+        return returnValue;
     }
 }
