@@ -52,7 +52,7 @@ public class List extends Value {
         for (Value value : values) {
             newValues.add(value.copy());
         }
-        return new List(values);
+        return new List(newValues);
     }
 
     public void addElementsFromOtherList (List list) {

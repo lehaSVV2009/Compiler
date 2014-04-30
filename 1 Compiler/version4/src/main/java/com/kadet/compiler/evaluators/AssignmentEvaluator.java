@@ -51,7 +51,7 @@ public class AssignmentEvaluator implements StatementEvaluator {
         if (value == null) {
             throw new KadetException("Bad Value!");
         }
-        currentVariable.setValue(value);
+        currentVariable.setValue(value.copy());
         System.out.println("Value assign to variable. Variable : " + currentVariable);
     }
 

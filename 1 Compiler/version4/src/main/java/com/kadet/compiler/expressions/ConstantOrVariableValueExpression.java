@@ -1,10 +1,8 @@
 package com.kadet.compiler.expressions;
 
-import com.kadet.compiler.entities.Procedure;
-import com.kadet.compiler.entities.Program;
-import com.kadet.compiler.entities.Value;
-import com.kadet.compiler.entities.Variable;
+import com.kadet.compiler.entities.*;
 import com.kadet.compiler.util.KadetException;
+import com.kadet.compiler.util.ValueUtils;
 import com.kadet.compiler.util.VariableUtils;
 import sun.dc.pr.PRError;
 
@@ -29,6 +27,10 @@ public class ConstantOrVariableValueExpression implements Expression{
             throw new KadetException("There are no executing procedure!");
         }
         Variable variable = VariableUtils.getConstantOrVariableFromProcedure(name, procedure);
+        Value value = variable.getValue();
+        if (ValueUtils.isList(value)) {
+            value = ((List)value).copy();
+        }
         return variable.getValue();
     }
 }

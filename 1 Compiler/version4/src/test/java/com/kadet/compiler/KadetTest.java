@@ -1057,5 +1057,109 @@ public class KadetTest {
         }
     }
 
+    @Test
+    public void simpleKadOut () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  constant one := 1 + 2;" +
+                "\n  var z : Element;" +
+                "\n" +
+                "\n  function foo (x : Integer) =" +
+                "\n    constant k := one;" +
+                "\n    var y : Element;" +
+                "\n  begin" +
+                "\n    return k + y + x;" +
+                "\n  end foo." +
+                "\n" +
+                "\nbegin " +
+                "\n  z := f: foo(23);" +
+                "\n  << z , f: foo(25), z ;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void integerReferenceTest () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  var z : Integer;" +
+                "\n  var y : Integer;" +
+                "\n" +
+                "\nbegin " +
+                "\n  z := 2;" +
+                "\n  << z , y ;" +
+                "\n  z := y;" +
+                "\n  << z , y ;" +
+                "\n  z := z plus 1;" +
+                "\n  << z , y ;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+
+    @Test
+    public void booleanReferenceTest () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  var z : Boolean;" +
+                "\n  var y : Boolean;" +
+                "\n" +
+                "\nbegin " +
+                "\n  << z , y ;" +
+                "\n  z := y;" +
+                "\n  << z , y ;" +
+                "\n  z := @true;" +
+                "\n  << z , y ;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+
+
+    @Test
+    public void elementReferenceTest () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  var z : Element;" +
+                "\n  var y : Element;" +
+                "\n  var x : Element;" +
+                "\n" +
+                "\nbegin " +
+                "\n  << z, y, x ;" +
+                "\n  z := y;" +
+                "\n  << z, y, x;" +
+                "\n  z := x;" +
+                "\n  << z, y, x;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void listReferenceTest () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  var list1 : List;" +
+                "\n  var list2 : List;" +
+                "\n  var list3 : List;" +
+                "\n" +
+                "\nbegin " +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list1 := <1, 2, 3>;" +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list2 := list1;" +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list2 := list2 + 1;" +
+                "\n  << list1, list2, list3 ;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+
+
 
 }

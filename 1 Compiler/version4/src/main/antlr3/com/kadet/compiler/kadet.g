@@ -117,6 +117,7 @@ statement returns [StatementEvaluator evaluator]
     |   whileStatement              { $evaluator = $whileStatement.evaluator; }
     |   forStatement                { $evaluator = $forStatement.evaluator; }
     |   procedureCallStatement      { $evaluator = $procedureCallStatement.evaluator; }
+    |   kadOutStatement             { $evaluator = $kadOutStatement.evaluator; }
     ;
 
 ifStatement returns [IfEvaluator evaluator]
@@ -340,6 +341,18 @@ procedure returns [Procedure procedure]
 
 procedureCallStatement returns [ProcedureCallEvaluator evaluator]
     :   id = ID '(' actualParameters ')' ';'    { $evaluator = new ProcedureCallEvaluator($id.text, $actualParameters.expressions); }
+    ;
+
+kadOutStatement returns [KadOutEvaluator evaluator]
+@init {
+    $evaluator = new KadOutEvaluator();
+}
+    :   '<<'
+        expr1 = expression          { $evaluator.addExpression($expr1.expression); }
+        (','
+            expr2 = expression      { $evaluator.addExpression($expr2.expression); }
+        )*
+        ';'
     ;
 
 actualParameters returns [List<Expression> expressions]

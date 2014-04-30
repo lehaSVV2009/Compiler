@@ -12,4 +12,11 @@ public class Int extends Element{
         super(integer);
         this.type = Type.INTEGER;
     }
+
+
+    @Override
+    public Value copy () {
+        return new Int((Integer) getContent());
+    }
+
 }

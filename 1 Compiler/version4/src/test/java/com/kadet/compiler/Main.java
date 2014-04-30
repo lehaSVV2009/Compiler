@@ -14,13 +14,19 @@ public class Main {
     public static void main(String[] args) throws KadetException {
         KadetCompiler compiler = new KadetCompiler();
         Evaluator evaluator = compiler.compile("program XLSample = " +
-                "\n constant one : Integer := 1;" +
-                "\n var x : Integer;" +
-                "\n var x : Integer;" +
-                "\n begin " +
-                "\n   x := 2 plus 3;" +
-                "\n   x := 4 plus x;" +
-                "\n end XLSample.");
+                "\n  var list1 : List;" +
+                "\n  var list2 : List;" +
+                "\n  var list3 : List;" +
+                "\n" +
+                "\nbegin " +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list1 := <1, 2, 3>;" +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list2 := list1;" +
+                "\n  << list1, list2, list3 ;" +
+                "\n  list2 := list2 + 1;" +
+                "\n  << list1, list2, list3 ;" +
+                "\nend XLSample.");
         evaluator.evaluate();
     }
 

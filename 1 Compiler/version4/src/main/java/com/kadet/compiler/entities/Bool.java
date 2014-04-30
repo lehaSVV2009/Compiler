@@ -12,4 +12,9 @@ public class Bool extends Element {
         super(bool);
         this.type = Type.BOOLEAN;
     }
+
+    @Override
+    public Value copy() {
+        return new Bool((Boolean)getContent());
+    }
 }
