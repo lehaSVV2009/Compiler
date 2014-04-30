@@ -12,7 +12,7 @@ public class List extends Value {
 
     private java.util.List<Value> values = new ArrayList<Value>();
 
-    private List () {
+    public List () {
         this.type = Type.LIST;
     }
 

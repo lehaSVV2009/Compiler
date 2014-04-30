@@ -208,6 +208,7 @@ term returns [Expression expression]
     |   id = ID                                 { $expression = new ConstantOrVariableValueExpression($ID.text); }
     |   ID '[' innerExpr = expression ']'       { $expression = new ElementFromListExpression($ID.text, $innerExpr.expression); }
     |   'f:' ID '(' actualParameters ')'        { $expression = new FunctionCallExpression($ID.text, $actualParameters.expressions); }
+    |   '>=>'                                    { $expression = new KadInExpression(System.in); }
     ;
 
 element returns [Expression expression]
@@ -347,7 +348,7 @@ kadOutStatement returns [KadOutEvaluator evaluator]
 @init {
     $evaluator = new KadOutEvaluator();
 }
-    :   '<<'
+    :   '<=<'
         expr1 = expression          { $evaluator.addExpression($expr1.expression); }
         (','
             expr2 = expression      { $evaluator.addExpression($expr2.expression); }

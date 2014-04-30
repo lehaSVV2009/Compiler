@@ -23,7 +23,7 @@ public class KadOutEvaluator implements StatementEvaluator {
     @Override
     public void evaluate() throws KadetException {
         for (Expression expression : expressions) {
-            System.out.println("<<" + expression.calculate());
+            System.out.println("<=<" + expression.calculate());
         }
     }
 

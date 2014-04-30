@@ -1073,7 +1073,7 @@ public class KadetTest {
                 "\n" +
                 "\nbegin " +
                 "\n  z := f: foo(23);" +
-                "\n  << z , f: foo(25), z ;" +
+                "\n  <=< z , f: foo(25), z ;" +
                 "\nend XLSample.");
         evaluator.evaluate();
     }
@@ -1088,11 +1088,11 @@ public class KadetTest {
                 "\n" +
                 "\nbegin " +
                 "\n  z := 2;" +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\n  z := y;" +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\n  z := z plus 1;" +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\nend XLSample.");
         evaluator.evaluate();
     }
@@ -1107,11 +1107,11 @@ public class KadetTest {
                 "\n  var y : Boolean;" +
                 "\n" +
                 "\nbegin " +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\n  z := y;" +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\n  z := @true;" +
-                "\n  << z , y ;" +
+                "\n  <=< z , y ;" +
                 "\nend XLSample.");
         evaluator.evaluate();
     }
@@ -1128,11 +1128,11 @@ public class KadetTest {
                 "\n  var x : Element;" +
                 "\n" +
                 "\nbegin " +
-                "\n  << z, y, x ;" +
+                "\n  <=< z, y, x ;" +
                 "\n  z := y;" +
-                "\n  << z, y, x;" +
+                "\n  <=< z, y, x;" +
                 "\n  z := x;" +
-                "\n  << z, y, x;" +
+                "\n  <=< z, y, x;" +
                 "\nend XLSample.");
         evaluator.evaluate();
     }
@@ -1147,19 +1147,32 @@ public class KadetTest {
                 "\n  var list3 : List;" +
                 "\n" +
                 "\nbegin " +
-                "\n  << list1, list2, list3 ;" +
+                "\n  <=< list1, list2, list3 ;" +
                 "\n  list1 := <1, 2, 3>;" +
-                "\n  << list1, list2, list3 ;" +
+                "\n  <=< list1, list2, list3 ;" +
                 "\n  list2 := list1;" +
-                "\n  << list1, list2, list3 ;" +
+                "\n  <=< list1, list2, list3 ;" +
                 "\n  list2 := list2 + 1;" +
-                "\n  << list1, list2, list3 ;" +
+                "\n  <=< list1, list2, list3 ;" +
                 "\nend XLSample.");
         evaluator.evaluate();
     }
 
 
-
-
+    // It works in the console
+    //@Test
+    public void kadInTest () throws KadetException{
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  var x : Boolean;" +
+                "\n" +
+                "\nbegin " +
+                "\n  x := >=>;" +
+                "\n  x := >=>;" +
+                "\n  x := >=>;" +
+                "\n  x := >=>;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
 
 }
