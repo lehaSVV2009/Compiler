@@ -22,29 +22,8 @@ public final class VariableUtils {
         }
     }
 
-    public static boolean hasSuchVariableOrConstantName(String name, List<Variable> variables, List<Constant> constants) {
-        boolean hasName = false;
-        for (Variable variable : variables) {
-            if (variable.hasSuchName(name)) {
-                hasName = true;
-            }
-        }
-        for (Constant constant : constants) {
-            if (constant.hasSuchName(name)) {
-                hasName = true;
-            }
-        }
-        return hasName;
-    }
-
-    public static boolean hasSuchVariableName(String name, List<Variable> variables) {
-        boolean hasName = false;
-        for (Variable variable : variables) {
-            if (variable.hasSuchName(name)) {
-                hasName = true;
-            }
-        }
-        return hasName;
+    public static boolean hasSuchVariableOrConstantName(String name, Procedure procedure) {
+        return hasSuchConstantName(name, procedure) || hasSuchVariableName(name, procedure) ;
     }
 
     public static boolean hasSuchVariableName(String name, Procedure procedure) {
@@ -58,6 +37,25 @@ public final class VariableUtils {
         while (parentProcedure != null) {
             for (Variable variable : parentProcedure.getVariables()) {
                 if (variable.hasSuchName(name)) {
+                    hasName = true;
+                }
+            }
+            parentProcedure = parentProcedure.getParentProcedure();
+        }
+        return hasName;
+    }
+
+    public static boolean hasSuchConstantName(String name, Procedure procedure) {
+        boolean hasName = false;
+        for (Constant constant : procedure.getConstants()) {
+            if (constant.hasSuchName(name)) {
+                hasName = true;
+            }
+        }
+        Procedure parentProcedure = procedure.getParentProcedure();
+        while (parentProcedure != null) {
+            for (Constant constant : parentProcedure.getConstants()) {
+                if (constant.hasSuchName(name)) {
                     hasName = true;
                 }
             }
@@ -91,16 +89,39 @@ public final class VariableUtils {
         throw new KadetException("There are no such variable!");
     }
 
+    public static List<Constant> getConstantsFromProcedure (Procedure procedure) {
+        List<Constant> constants = new ArrayList<Constant>();
+        for (Constant constant : procedure.getConstants()) {
+            constants.add(constant);
+        }
+        Procedure parentProcedure = procedure.getParentProcedure();
+        while (parentProcedure != null) {
+            for (Constant constant : parentProcedure.getConstants()) {
+                constants.add(constant);
+            }
+            parentProcedure = parentProcedure.getParentProcedure();
+        }
+        return constants;
+    }
 
-/*
-
-    public static List<Variable> addOrUpdateVariablesInList (List<Variable> newVariables, List<Variable> list) {
-        for (Variable variable : newVariables) {
-            boolean isNew = true;
-            for (Variable variable) {
-
+    public static Constant getConstantFromProcedure(String name, Procedure procedure) throws KadetException {
+        for (Constant constant : VariableUtils.getConstantsFromProcedure(procedure)) {
+            if (constant.hasSuchName(name)) {
+                return constant;
             }
         }
+        throw new KadetException("There are no such variable!");
     }
-*/
+
+
+    public static Variable getConstantOrVariableFromProcedure (String name, Procedure procedure) throws KadetException {
+        if (hasSuchConstantName(name, procedure)) {
+            return getConstantFromProcedure(name, procedure);
+        } else if(hasSuchVariableName(name, procedure)) {
+            return getVariableFromProcedure(name, procedure);
+        }
+        throw new KadetException("There are no such Constant or Variable!");
+    }
+
+
 }

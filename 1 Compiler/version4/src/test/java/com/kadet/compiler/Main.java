@@ -1,6 +1,7 @@
 package com.kadet.compiler;
 
 import com.kadet.compiler.evaluators.Evaluator;
+import com.kadet.compiler.util.KadetException;
 
 /**
  * Date: 29.04.14
@@ -10,7 +11,7 @@ import com.kadet.compiler.evaluators.Evaluator;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws KadetException {
         KadetCompiler compiler = new KadetCompiler();
         Evaluator evaluator = compiler.compile("program XLSample = " +
                 "\n constant one : Integer := 1;" +

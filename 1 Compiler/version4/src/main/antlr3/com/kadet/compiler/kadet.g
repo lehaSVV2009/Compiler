@@ -72,12 +72,13 @@ constant returns [List<Constant> constants]
                                                  $constants.add(constant);
                                                }
         )*
-       ':' type                                {
-                                                 for (Constant currentConstant : $constants) {
-                                                   currentConstant.setValue(ValueFactory.createValue($type.TYPE));
-                                                 }
+       ':='
+            expression                         {
+                                                  for (Constant currentConstant : $constants) {
+                                                    currentConstant.setExpression($expression.expression);
+                                                  }
                                                }
-       (':=' expression)? ';'
+       ';'
     ;
 
 variable returns [List<Variable> variables]
@@ -203,24 +204,10 @@ term returns [Expression expression]
     :   element                                 { $expression = $element.expression; }
     |   list                                    { $expression = $list.expression; }
     |   '(' innerExpression = expression ')'    { $expression = $innerExpression.expression; }
-    |   id = ID                                 { $expression = new VariableValueExpression($ID.text); }
-    |   ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
+    |   id = ID                                 { $expression = new ConstantOrVariableValueExpression($ID.text); }
+    |   ID '[' innerExpr = expression ']'       { $expression = new ElementFromListExpression($ID.text, $innerExpr.expression); }
     |   'f:' ID '(' actualParameters ')'        { $expression = new FunctionCallExpression($ID.text, $actualParameters.expressions); }
     ;
-
-
-
-///plus: expression (| expression '+' );
-
-
-///NUMBER: ('0'..'9')*;
-
-///plus: expression (| expression '+' );
-///expression: NUMBER | '(' plus ')';
-
-//elementFromList returns [Expression expression]
-//    :	ID '[' INTEGER ']'                      { $expression = new ElementFromListExpression($ID.text, Integer.parseInt($INTEGER.text)); }
-//    ;
 
 element returns [Expression expression]
     :   INTEGER                                 { $expression = new ValueExpression(new Int(Integer.parseInt($INTEGER.text))); }

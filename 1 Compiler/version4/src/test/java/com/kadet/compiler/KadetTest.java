@@ -461,8 +461,8 @@ public class KadetTest {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
                     "" +
-                    "constant one: Integer := 1;" +
-                    "constant two: Integer := 2;" +
+                    "constant one := 1;" +
+                    "constant two := 2;" +
                     "var x,   y , z : Integer;" +
                     "var t : Boolean;" +
                     "begin " +
@@ -480,7 +480,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\nconstant one: Integer := 1;" +
+                    "\nconstant one := 1;" +
                     "\nvar list : List;" +
                     "\nvar t : Boolean;" +
                     "\nbegin " +
@@ -498,7 +498,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\nconstant one: Integer := 1;" +
+                    "\nconstant one := 1;" +
                     "\nvar list1 : List;" +
                     "\nvar list2 : List;" +
                     "\nvar x : Boolean;" +
@@ -522,7 +522,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\nconstant one: Integer := 1;" +
+                    "\nconstant one := 1;" +
                     "\nvar list1 : List;" +
                     "\nvar list2 : List;" +
                     "\nvar x : Boolean;" +
@@ -545,7 +545,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\nconstant one: Integer := 1;" +
+                    "\nconstant one := 1;" +
                     "\nvar list1 : List;" +
                     "\nvar list2 : List;" +
                     "\nvar x : Boolean;" +
@@ -570,7 +570,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\nconstant one: Integer := 1;" +
+                    "\nconstant one := 1;" +
                     "\nvar list1 : List;" +
                     "\nvar list2 : List;" +
                     "\nvar x : Boolean;" +
@@ -591,9 +591,9 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n procedure foo (x : Element) =" +
-                    "\n   constant y : Element := 12;" +
+                    "\n   constant y := 12;" +
                     "\n   var result : List;" +
                     "\n begin" +
                     "\n   x := 1 plus 2;" +
@@ -612,9 +612,9 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n procedure foo () =" +
-                    "\n   constant y : Element := 12;" +
+                    "\n   constant y := 12;" +
                     "\n   var result : List;" +
                     "\n begin" +
                     "\n end foo." +
@@ -631,9 +631,9 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n function fee () =" +
-                    "\n   constant y : Element := 12;" +
+                    "\n   constant y := 12;" +
                     "\n   var result : List;" +
                     "\n begin" +
                     "\n   return 12;" +
@@ -651,7 +651,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   if 3 less 5 then" +
@@ -670,7 +670,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   if (3 greater 5) then" +
@@ -690,7 +690,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   if (3 greater 5) then" +
@@ -714,7 +714,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   if 6 greaterOrEqual 7 then" +
@@ -736,7 +736,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   x := 2 plus 3;" +
@@ -754,7 +754,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n var x : Integer;" +
                     "\n begin " +
@@ -773,7 +773,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var x : Integer;" +
                     "\n begin " +
                     "\n   x := 2;" +
@@ -793,7 +793,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one : Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var i : Integer;" +
                     "\n var x : Integer;" +
                     "\n begin " +
@@ -830,7 +830,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n procedure foo () =" +
                     "\n   var x : Integer;" +
                     "\n   var y : Integer;" +
@@ -861,7 +861,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var b : Boolean;" +
                     "\n procedure foo (z : Integer, b : Boolean) =" +
                     "\n   var x : Integer;" +
@@ -885,7 +885,7 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var b : Element;" +
                     "\n var x : Integer;" +
                     "\n begin " +
@@ -906,11 +906,11 @@ public class KadetTest {
         try {
             KadetCompiler compiler = new KadetCompiler();
             Evaluator evaluator = compiler.compile("program XLSample = " +
-                    "\n constant one: Integer := 1;" +
+                    "\n constant one := 1;" +
                     "\n var b : Element;" +
                     "\n" +
                     "\n function fee () =" +
-                    "\n   constant y : Element := 12;" +
+                    "\n   constant y := 12;" +
                     "\n   var result : List;" +
                     "\n begin" +
                     "\n   return 12 + 1;" +
@@ -931,11 +931,11 @@ public class KadetTest {
     public void wrongParametersType() throws KadetException {
         KadetCompiler compiler = new KadetCompiler();
         Evaluator evaluator = compiler.compile("program XLSample = " +
-                "\n constant one: Integer := 1;" +
+                "\n constant one := 1;" +
                 "\n var b : Element;" +
                 "\n" +
                 "\n function fee (x : Integer) =" +
-                "\n   constant y : Element := 12;" +
+                "\n   constant y := 12;" +
                 "\n   var result : List;" +
                 "\n begin" +
                 "\n   return 12 + 1;" +
@@ -946,6 +946,115 @@ public class KadetTest {
                 "\n   b := f: fee(@true);" +
                 "\n end XLSample.");
         evaluator.evaluate();
+    }
+
+
+    @Test
+    public void elementOfList() {
+        try {
+            KadetCompiler compiler = new KadetCompiler();
+            Evaluator evaluator = compiler.compile("program XLSample = " +
+                    "\n  constant one := 1;" +
+                    "\n  var list : List;" +
+                    "\n  var t : Boolean;" +
+                    "\nbegin " +
+                    "\n  list := <1, 2, 3, 4 plus 5>;" +
+                    "\n  t := list[1 plus 1];" +
+                    "\nend XLSample.");
+            evaluator.evaluate();
+        } catch (KadetException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test(expected = KadetException.class)
+    public void elementOfListException() throws KadetException {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  constant one := 1;" +
+                "\n  var list : List;" +
+                "\n  var t : Boolean;" +
+                "\nbegin " +
+                "\n  list := <1, 2, 3, 4 plus 5>;" +
+                "\n  t := list[2 plus 2];" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+
+    @Test
+    public void listAsElementOfListException() {
+        try {
+            KadetCompiler compiler = new KadetCompiler();
+            Evaluator evaluator = compiler.compile("program XLSample = " +
+                    "\n  constant one := 1;" +
+                    "\n  var list : List;" +
+                    "\n  var t : Boolean;" +
+                    "\nbegin " +
+                    "\n  list := <1, 2, 3, 4 + 5>;" +
+                    "\n  t := list[3] + list[2] + <1, 2>;" +
+                    "\nend XLSample.");
+            evaluator.evaluate();
+        } catch (KadetException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void simpleConstant() {
+        try {
+            KadetCompiler compiler = new KadetCompiler();
+            Evaluator evaluator = compiler.compile("program XLSample = " +
+                    "\n  constant one := 1 plus 2;" +
+                    "\n  var list : List;" +
+                    "\n  var t : Boolean;" +
+                    "\nbegin " +
+                    "\n  t := one + one;" +
+                    "\nend XLSample.");
+            evaluator.evaluate();
+        } catch (KadetException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test(expected = KadetException.class)
+    public void tryToChangeConstant() throws KadetException {
+        KadetCompiler compiler = new KadetCompiler();
+        Evaluator evaluator = compiler.compile("program XLSample = " +
+                "\n  constant one := 1 plus 2;" +
+                "\n  var list : List;" +
+                "\n  var t : Boolean;" +
+                "\nbegin " +
+                "\n  one := 2;" +
+                "\nend XLSample.");
+        evaluator.evaluate();
+    }
+
+    @Test
+    public void useExpressionInConstantInInnerFunction () {
+        try {
+            KadetCompiler compiler = new KadetCompiler();
+            Evaluator evaluator = compiler.compile("program XLSample = " +
+                    "\n  constant one := 1 + 2;" +
+                    "\n  var z : Element;" +
+                    "\n" +
+                    "\n  function foo (x : Integer) =" +
+                    "\n    constant k := one;" +
+                    "\n    var y : Element;" +
+                    "\n  begin" +
+                    "\n    return k + y;" +
+                    "\n  end foo." +
+                    "\n" +
+                    "\nbegin " +
+                    "\n  z := f: foo(23);" +
+                    "\nend XLSample.");
+            evaluator.evaluate();
+        } catch (KadetException e) {
+            e.printStackTrace();
+        }
     }
 
 

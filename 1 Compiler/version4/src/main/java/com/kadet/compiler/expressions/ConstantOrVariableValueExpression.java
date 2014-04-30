@@ -14,11 +14,11 @@ import sun.dc.pr.PRError;
  *
  * @author SarokaA
  */
-public class VariableValueExpression implements Expression{
+public class ConstantOrVariableValueExpression implements Expression{
 
     private String name;
 
-    public VariableValueExpression(String name) {
+    public ConstantOrVariableValueExpression(String name) {
         this.name = name;
     }
 
@@ -28,10 +28,7 @@ public class VariableValueExpression implements Expression{
         if (procedure == null) {
             throw new KadetException("There are no executing procedure!");
         }
-        if (!VariableUtils.hasSuchVariableName(name, procedure)) {
-            throw new KadetException("There are no such variable name!");
-        }
-        Variable variable = VariableUtils.getVariableFromProcedure(name, procedure);
+        Variable variable = VariableUtils.getConstantOrVariableFromProcedure(name, procedure);
         return variable.getValue();
     }
 }
